@@ -1,0 +1,10 @@
+name: HeroSpawn
+version: 3.0
+main: com.bitzcraftonline.herospawn.HeroSpawn
+description: Spawns first time users in a different location.
+author: PvM_Iain
+website: bitzcraftonline.com
+
+commands:
+  herospawn:
+    description: \t
