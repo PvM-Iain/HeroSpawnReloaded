@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import java.net.Proxy;
 import java.net.URL;
@@ -20,24 +19,16 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import org.bukkit.Bukkit;
-import org.bukkit.Server;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.configuration.file.YamlConfigurationOptions;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
-import org.bukkit.scheduler.BukkitScheduler;
 
 public class Metrics
 {
-  private static final int REVISION = 5;
-  private static final String BASE_URL = "http://metrics.griefcraft.com";
-  private static final String REPORT_URL = "/report/%s";
-  private static final String CONFIG_FILE = "plugins/PluginMetrics/config.yml";
-  private static final String CUSTOM_DATA_SEPARATOR = "~~";
-  private static final int PING_INTERVAL = 10;
-  private Map<Plugin, Set<Graph>> graphs = Collections.synchronizedMap(new HashMap());
+  @SuppressWarnings("rawtypes")
+private Map<Plugin, Set> graphs = Collections.synchronizedMap(new HashMap<Plugin, Set>());
 
-  private Map<Plugin, Graph> defaultGraphs = Collections.synchronizedMap(new HashMap());
+  private Map<Plugin, Graph> defaultGraphs = Collections.synchronizedMap(new HashMap<Plugin, Graph>());
   private final YamlConfiguration configuration;
   private String guid;
 
@@ -66,7 +57,7 @@ public class Metrics
 
     Graph graph = new Graph(type, name);
 
-    Set graphs = getOrCreateGraphs(plugin);
+    Set<Graph> graphs = getOrCreateGraphs(plugin);
 
     graphs.add(graph);
 
@@ -122,8 +113,7 @@ private void postPlugin(Plugin plugin, boolean isPing)
       data = data + encodeDataPair("ping", "true");
     }
 
-    @SuppressWarnings("rawtypes")
-	Set graphs = getOrCreateGraphs(plugin);
+    Set graphs = getOrCreateGraphs(plugin);
 
     synchronized (graphs) {
       Iterator iter = graphs.iterator();
@@ -176,12 +166,13 @@ private void postPlugin(Plugin plugin, boolean isPing)
       }
   }
 
-  private Set<Graph> getOrCreateGraphs(Plugin plugin)
+  @SuppressWarnings("unchecked")
+private Set<Graph> getOrCreateGraphs(Plugin plugin)
   {
-    Set theGraphs = (Set)this.graphs.get(plugin);
+    Set<Graph> theGraphs = (Set<Graph>)this.graphs.get(plugin);
 
     if (theGraphs == null) {
-      theGraphs = Collections.synchronizedSet(new HashSet());
+      theGraphs = Collections.synchronizedSet(new HashSet<Graph>());
       this.graphs.put(plugin, theGraphs);
     }
 
@@ -226,7 +217,7 @@ private void postPlugin(Plugin plugin, boolean isPing)
   {
     private final Type type;
     private final String name;
-    private final Set<Metrics.Plotter> plotters = new LinkedHashSet();
+    private final Set<Metrics.Plotter> plotters = new LinkedHashSet<Plotter>();
 
     private Graph(Type type, String name) {
       this.type = type;

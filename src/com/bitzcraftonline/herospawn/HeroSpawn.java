@@ -10,11 +10,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.HashMap;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.bukkit.Location;
-import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -22,7 +19,6 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class HeroSpawn extends JavaPlugin {
@@ -30,8 +26,7 @@ public class HeroSpawn extends JavaPlugin {
   public static HeroSpawn instance;
   public static Logger logger = Logger.getLogger("Minecraft");
   public static String PREFIX;
-  @SuppressWarnings("unchecked")
-private HashMap<World, SpawnPoint> spawnPoints = new HashMap();
+private HashMap<World, SpawnPoint> spawnPoints = new HashMap<World, SpawnPoint>();
 
   public HeroSpawn() {
     instance = this;
@@ -50,7 +45,7 @@ private HashMap<World, SpawnPoint> spawnPoints = new HashMap();
 
   public void startMetrics() {
     try {
-      Metrics metrics = new Metrics();
+      new Metrics();
     }
     catch (IOException localIOException)
     {

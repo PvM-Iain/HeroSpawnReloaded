@@ -17,8 +17,6 @@ public class SpawnPoint
   private double z;
   private float yaw;
   private float pitch;
-  private String welcomeMsg;
-
   public SpawnPoint(World world)
   {
     this.world = world;
@@ -27,7 +25,6 @@ public class SpawnPoint
     this.z = world.getSpawnLocation().getZ();
     this.yaw = world.getSpawnLocation().getYaw();
     this.pitch = world.getSpawnLocation().getPitch();
-    this.welcomeMsg = "Welcome to the server %p";
   }
 
   public void load()
